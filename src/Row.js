@@ -28,12 +28,35 @@ function Row({ title, fetchUrl, isLargerow }) {
     if (trailerUrl) {
       setTrailerUrl("");
     } else {
-      movieTrailer(movie?.name || movie?.original_title || movie?.title || "")
-        .then((url) => {
-          const urlParams = new URLSearchParams(new URL(url).search);
-          setTrailerUrl(urlParams.get("v"));
-        })
-        .catch((error) => console.log(error));
+      if (movie?.title) {
+        movieTrailer(movie?.title)
+          .then((url) => {
+            const urlParams = new URLSearchParams(new URL(url).search);
+            setTrailerUrl(urlParams.get("v"));
+          })
+          .catch((error) => console.log(error));
+      } else if (movie?.original_title) {
+        movieTrailer(movie?.original_title)
+          .then((url) => {
+            const urlParams = new URLSearchParams(new URL(url).search);
+            setTrailerUrl(urlParams.get("v"));
+          })
+          .catch((error) => console.log(error));
+      } else if (movie?.name) {
+        movieTrailer(movie?.name)
+          .then((url) => {
+            const urlParams = new URLSearchParams(new URL(url).search);
+            setTrailerUrl(urlParams.get("v"));
+          })
+          .catch((error) => console.log(error));
+      } else {
+        movieTrailer("netflix")
+          .then((url) => {
+            const urlParams = new URLSearchParams(new URL(url).search);
+            setTrailerUrl(urlParams.get("v"));
+          })
+          .catch((error) => console.log(error));
+      }
     }
   };
   return (
