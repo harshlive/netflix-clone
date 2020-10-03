@@ -12,7 +12,7 @@ const opts = {
     autoplay: 1,
   },
 };
-//test
+
 function Row({ title, fetchUrl, isLargerow }) {
   const [movies, setMovies] = useState([]);
   const [trailerUrl, setTrailerUrl] = useState("");
@@ -28,35 +28,12 @@ function Row({ title, fetchUrl, isLargerow }) {
     if (trailerUrl) {
       setTrailerUrl("");
     } else {
-      if (movie?.title) {
-        movieTrailer(movie?.title)
-          .then((url) => {
-            const urlParams = new URLSearchParams(new URL(url).search);
-            setTrailerUrl(urlParams.get("v"));
-          })
-          .catch((error) => console.log(error));
-      } else if (movie?.original_title) {
-        movieTrailer(movie?.original_title)
-          .then((url) => {
-            const urlParams = new URLSearchParams(new URL(url).search);
-            setTrailerUrl(urlParams.get("v"));
-          })
-          .catch((error) => console.log(error));
-      } else if (movie?.name) {
-        movieTrailer(movie?.name)
-          .then((url) => {
-            const urlParams = new URLSearchParams(new URL(url).search);
-            setTrailerUrl(urlParams.get("v"));
-          })
-          .catch((error) => console.log(error));
-      } else {
-        movieTrailer("netflix")
-          .then((url) => {
-            const urlParams = new URLSearchParams(new URL(url).search);
-            setTrailerUrl(urlParams.get("v"));
-          })
-          .catch((error) => console.log(error));
-      }
+      movieTrailer(movie?.title || movie?.name || movie?.original_name || "")
+        .then((url) => {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          setTrailerUrl(urlParams.get("v"));
+        })
+        .catch((error) => console.log(error));
     }
   };
   return (
